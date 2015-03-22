@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+</head>
+<body>
+	<h1>Le voice test face lime if u like dis</h1>
+	 <p>
+            <a id="speech-btn">1 to 10</a>
+            <script>
+                var button = document.getElementById('speech-btn').addEventListener('click',
+                function onSpeechClick() {
+                    var msg = new SpeechSynthesisUtterance('One');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Two');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Three');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Four');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Five');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Six');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Seven');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('eight');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('Nine');
+                    window.speechSynthesis.speak(msg);
+                    var msg = new SpeechSynthesisUtterance('10');
+                    window.speechSynthesis.speak(msg);
+                });
+            </script>
+	</p>
+
+</body>
+</html>
