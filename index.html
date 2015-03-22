@@ -585,9 +585,6 @@ Leap.loop(options, function(frame) {
 					wordString += "pinch_strength:" + hand.pinchStrength + ",";
 					wordString += "grab_strength:" + hand.grabStrength;
 					wordString += "},output:{";
-<<<<<<< HEAD
-					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";			
-=======
 					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";
 					var input = {
 						input:
@@ -603,7 +600,6 @@ Leap.loop(options, function(frame) {
 						{wor : 1}
 					};
 					dictionary[dictionary.length] = input;
->>>>>>> origin/gh-pages
 					console.log(wordString);
 				}
 				if(n<=600){
@@ -680,7 +676,6 @@ Leap.loop(options, function(frame) {
 							cont++;
 						}
 					}else{
-<<<<<<< HEAD
 						frameString += "<h1>" + word + "</h1>";
                         if(word != tempWord){
                             var msg = new SpeechSynthesisUtterance(word);
@@ -688,9 +683,8 @@ Leap.loop(options, function(frame) {
                             tempWord = word;
                         }
                         
-=======
+
 						w=word;
->>>>>>> origin/gh-pages
 					}
 				}else{
 					cont = 0;
