@@ -497,8 +497,6 @@
     optionsString += "3 = Family";
     optionsString += "<br>";
     optionsString += "4 = Actions";
-    optionsString += "<br>";
-    optionsString += "10 = _Back to Menu";
 
     Leap.loop(options, function (frame) {
         
@@ -612,12 +610,22 @@
         if (suma != 0  && buffer > 50) {
             comparison = suma;
             answerbuffer = suma;
-            if (inNumbers == false && inNeeds == false && inFamily == false && inActions == false)
+            if (inNumbers == false && inNeeds == false && inFamily == false && inActions == false) {
                 if (checkBrowser() == "Chrome")
-                window.speechSynthesis.speak(firstMenu(suma));
-            
-            else if(inNumbers){
+
+                    window.speechSynthesis.speak(firstMenu(suma));
+            }
+
+            else if (inNumbers) {
                 if (suma != 10) {
+
+                    submenu.innerHTML = suma;
+                    var msg = new SpeechSynthesisUtterance(suma);
+                }
+                else {
+                    submenu.innerHTML = "Option: EXIT";
+                    var msg = new SpeechSynthesisUtterance("Back to main menu");
+                    inNumbers = false;
                     optionsString = "1 = Numbers";
                     optionsString += "<br>";
                     optionsString += "2 = Needs";
@@ -625,32 +633,23 @@
                     optionsString += "3 = Family";
                     optionsString += "<br>";
                     optionsString += "4 = Actions";
-                    optionsString += "<br>";
-                    optionsString += "10 = _Back to Menu";
-                    submenu.innerHTML = suma;
-                    var msg = new SpeechSynthesisUtterance(suma);
-                }
-                else {
-                    submenu.innerHTML =  "Option: EXIT";
-                    var msg = new SpeechSynthesisUtterance("Back to main menu");
-                    inNumbers = false;
                 }
                 if (checkBrowser() == "Chrome") 
-                 window.speechSynthesis.speak(msg);
-                
+                window.speechSynthesis.speak(msg);
+
             }
-            
+
             else if (inNeeds) {
                 if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(needsMenu(suma));
             }
-            
+
             else if (inFamily) {
                 if (checkBrowser() == "Chrome")
-                window.speechSynthesis.speak(familyMenu(suma));   
+                window.speechSynthesis.speak(familyMenu(suma));
             }
-            
-            else if(inActions){
+
+            else if (inActions) {
                 if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(actionMenu(suma));
             }
