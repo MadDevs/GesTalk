@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,7 +15,10 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/jumbotron-narrow.css" rel="stylesheet">
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <script src="/js/leap-plugins-0.1.6.1.js"></script>
     <script src="/js/ie-emulation-modes-warning.js"></script>
+
+
   </head>
 
   <body>
@@ -43,6 +46,15 @@
     </div> 
 <!--<div id = "output"></div>-->
 <script type="text/javascript">
+
+    var controller = new Leap.Controller();
+
+    controller.on('deviceConnected', function () {
+        console.log("A Leap device has been connected.");
+        doMyOwnStuff();
+    });
+
+    controller.connect();
 
     function concatData(id, data) {
         return id + ": " + data + "<br>";
@@ -179,8 +191,13 @@
             buffercomparison = suma;
         }
         buffer = buffer + 1;
-        if (frame.hands.length == 1)
+        if (frame.hands.length == 1) {
             if (suma > 5) suma = 5;
+            if (frame.hands[0].type == "left")
+            { lthumb = false; lindex = false; lmiddle = false; lring = false; lpinky = false; }
+            else
+            { rthumb = false, rindex = false, rmiddle = false, rring = false, rpinky = false }
+        }
         if (frame.hands.length == 0)
             suma = 0;
         if (suma != 0 && suma != comparison && buffer > 50) {
@@ -190,6 +207,18 @@
             window.speechSynthesis.speak(msg);
         }
 
+    });
+
+    // device detected
+    controller.on('deviceAttached', function () {
+        document.getElementById('plug').style.display = 'none';
+    });
+
+    // device removed
+    controller.on('deviceRemoved', function () {
+        document.getElementById('plug').style.display = 'block';
+        audio.pause();
+        audio.currentTime = 0.0;
     });
 
 </script>
