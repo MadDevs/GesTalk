@@ -128,6 +128,24 @@ function concatData(id, data){
 	return id + ": " + data + "<br>";
 }
 
+function checkBrowser() {
+    c = navigator.userAgent.search("Chrome");
+    f = navigator.userAgent.search("Firefox");
+    m8 = navigator.userAgent.search("MSIE 8.0");
+    m9 = navigator.userAgent.search("MSIE 9.0");
+    if (c > -1) {
+        brwsr = "Chrome";
+    }
+    else if (f > -1) {
+        brwsr = "Firefox";
+    } else if (m9 > -1) {
+        brwsr = "MSIE 9.0";
+    } else if (m8 > -1) {
+        brwsr = "MSIE 8.0";
+    }
+    return brwsr;
+}
+
 function getGest(fingers){
 	if(fingers[0].extended){
 		if(fingers[1].extended){
@@ -481,10 +499,12 @@ Leap.loop(options, function(frame) {
 							cont++;
 						}
 					}else{
-                        if(word != tempWord){
-                            var msg = new SpeechSynthesisUtterance(word);
-                            window.speechSynthesis.speak(msg);
-                            tempWord = word;
+					    if (word != tempWord) {
+					        if (checkBrowser() == "Chrome") {
+					            var msg = new SpeechSynthesisUtterance(word);
+					            window.speechSynthesis.speak(msg); 
+					        }
+					        tempWord = word;
                         }
                         
 

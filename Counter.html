@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -172,6 +172,24 @@ body {
         return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
     }
 
+    function checkBrowser() {
+        c = navigator.userAgent.search("Chrome");
+        f = navigator.userAgent.search("Firefox");
+        m8 = navigator.userAgent.search("MSIE 8.0");
+        m9 = navigator.userAgent.search("MSIE 9.0");
+        if (c > -1) {
+            brwsr = "Chrome";
+        }
+        else if (f > -1) {
+            brwsr = "Firefox";
+        } else if (m9 > -1) {
+            brwsr = "MSIE 9.0";
+        } else if (m8 > -1) {
+            brwsr = "MSIE 8.0";
+        }
+        return brwsr;
+    }
+
     var output = document.getElementById("output");
     var frameString = "", handString = "", fingerString = "";
     var hand, finger;
@@ -312,8 +330,11 @@ body {
             comparison = suma;
             answerbuffer = suma;
             //output.innerHTML = suma;
-            var msg = new SpeechSynthesisUtterance(suma);
-            window.speechSynthesis.speak(msg);
+            if (checkBrowser() == "Chrome") {
+                var msg = new SpeechSynthesisUtterance(suma);
+                window.speechSynthesis.speak(msg);
+            }
+            
         }
 
     });
