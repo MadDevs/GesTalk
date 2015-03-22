@@ -5,7 +5,7 @@
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
 </head>
 <body>
-  <h1>Counting up to ten</h1>
+  <h1>Count Up to Ten</h1>
   <div id = "output"></div>
 
 </body>
@@ -15,6 +15,34 @@
 function concatData(id, data){
   return id + ": " + data + "<br>";
 }
+
+function getFingetName(fingerType){
+  switch(fingerType) {
+    case 0:
+      return 'Thumb';
+    break;
+
+    case 1:
+      return 'Index';
+    break;
+
+    case 2:
+      return 'Middle';
+    break;
+
+    case 3:
+      return 'Ring';
+    break;
+
+    case 4:
+      return 'Pinky';
+    break;
+  }
+}
+
+function concatJointPosition(id, position){
+  return id + ": " + position[0] + ", " + position[1] + ", " + position [2] + "<br>";
+} 
 
 var output = document.getElementById("output");
 var frameString = "", handString = "", fingerString = "";
@@ -36,8 +64,57 @@ Leap.loop(options, function(frame) {
     handString += concatData("confidence", hand.confidence);
 
     handString += "<br>";
+
+    fingerString = ""
+    for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
+      finger = hand.fingers[j];
+      fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
+      fingerString += concatJointPosition("finger_dip", finger.dipPosition);
+      fingerString += concatJointPosition("finger_pip", finger.pipPosition);
+      fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+      fingerString += "<br>";
+    }
     
     frameString += handString;
+    frameString += fingerString;
+
+    var extendedFingers = 0;
+    for(var f = 0; f < hand.fingers.length; f++){
+        var finger = hand.fingers[f];
+        if(finger.extended) extendedFingers++;
+      }
+    console.log("Extended fingers: " + extendedFingers);
+
+    
+      var temporalExtended = extendedFingers;
+      
+    if(extendedFingers == 0)
+      speechSynthesis.cancel();
+
+    switch(extendedFingers) {
+      case 1:
+        var msg = new SpeechSynthesisUtterance('One');
+        window.speechSynthesis.speak(msg);
+        break;
+      case 2:
+        var msg = new SpeechSynthesisUtterance('Two');
+        window.speechSynthesis.speak(msg);
+        break;
+      case 3:
+        var msg = new SpeechSynthesisUtterance('Three');
+        window.speechSynthesis.speak(msg);
+        break;
+      case 4:
+        var msg = new SpeechSynthesisUtterance('Alfredo');
+        window.speechSynthesis.speak(msg);
+        break;
+      case 5:
+        var msg = new SpeechSynthesisUtterance('Five');
+        window.speechSynthesis.speak(msg);
+        break;
+
+    }
+
   }
 
   output.innerHTML = frameString;
