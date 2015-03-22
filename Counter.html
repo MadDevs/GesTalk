@@ -119,6 +119,7 @@ body {
       </div>
 
       <div class="jumbotron">
+          <h1 id="buffertext"></h1>
         <h2>Your number:</h2>
         <h1 id = "output"></h1>
       </div>
@@ -176,8 +177,8 @@ body {
     var hand, finger;
     var lthumb = false, lindex = false, lmiddle = false, lring = false, lpinky = false, rthumb = false, rindex = false, rmiddle = false, rring = false, rpinky = false; //fingers
     var suma = 0, comparison = 0;
-    var buffer = 0; buffercomparison = 0; //buffercomparison se compara con suma, buffer se suma hasta 20
-
+    var buffer = 0;  //buffercomparison se compara con suma, buffer se suma hasta 20
+    var buffercomparison = 0, answerbuffer = 0;
     var options = { enableGestures: true };
 
     Leap.loop(options, function (frame) {
@@ -268,12 +269,32 @@ body {
 
         output.innerHTML = frameString;
         suma = lthumb + lindex + lmiddle + lring + lpinky + rthumb + rindex + rmiddle + rring + rpinky;
-        if (suma != buffercomparison)
-        {
-            buffer = 0;
+        if (suma == 0) answerbuffer = 0;
+        if (suma != buffercomparison || suma == answerbuffer) {
+            if (buffer > 0)
+                buffer = 0;
             buffercomparison = suma;
         }
+
         buffer = buffer + 1;
+
+        if (buffer < 0) {
+            buffertextvar = "Please wait...";
+        }
+        else {
+            if (buffer > 1) {
+                if (suma != 0)
+                    buffertextvar = "Hold it...";
+                else
+                    buffertextvar = "Gesture a number!";
+            }
+            else {
+                buffertextvar = "Gesture a number!";
+            }
+        }
+
+        document.getElementById("buffertext").innerHTML = buffertextvar;
+
         if (frame.hands.length == 1) {
             if (suma > 5) suma = 5;
             if (frame.hands[0].type == "right")
@@ -281,10 +302,15 @@ body {
             else
             { rthumb = false, rindex = false, rmiddle = false, rring = false, rpinky = false }
         }
-        if (frame.hands.length == 0)
+        if (frame.hands.length == 0) {
             suma = 0;
-        if (suma != 0 && suma != comparison && buffer > 50) {
+            answerbuffer = 0;
+            if (buffer > 0)
+                buffer = 0;
+        }
+        if (suma != 0  && buffer > 50) {
             comparison = suma;
+            answerbuffer = suma;
             //output.innerHTML = suma;
             var msg = new SpeechSynthesisUtterance(suma);
             window.speechSynthesis.speak(msg);
