@@ -1,0 +1,114 @@
+<!-- Alfredo Hinojosa Huerta A01036053-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Carrera de la liebre y la tortuga</title>
+    <link rel="stylesheet" type="text/css" href="CSS/main.css">
+    
+    <script type="text/javascript">
+        <!--
+            
+        var seconds = 0;
+        var posConejo = 0;
+        var posTortuga = 0;
+        var running = false;
+        var ganador = "";
+        var x = 0; // Tortuga
+        var y = 0; // Conejo
+       
+
+        function newRace() {
+            seconds = 0;
+            running = false;
+            posConejo = 0;
+            posTortuga = 0;
+            document.getElementById("liebre").style.left = 0;
+            document.getElementById("tortuga").style.left = 0;
+            document.getElementById("win").innerHTML = "EL GANADOR:";
+        }
+
+        function startTimer() 
+         {
+            running = true;
+             window.setInterval( "updateTime()", 500 );
+         } 
+
+         function updateTime()
+         {
+            if(running) {
+                x = 1 + Math.floor(Math.random()* 100);
+                if(x <= 55)
+                    posTortuga += 3 * 5;
+                else if (x > 55 && x <= 80)
+                        posTortuga += 1 * 5;
+                else
+                    posTortuga -= 6*5;
+                
+                
+                y = 1 + Math.floor(Math.random()* 100);
+                if(y <= 40)
+                    posConejo += 1*5;
+                else if(y > 60 && y <= 75)
+                    posConejo += 9*5;
+                else if(y > 75 && y <= 90)
+                    posConejo -= 2*5;
+                else if(y > 90)
+                    posConejo -+ 12*5;
+                
+                ++seconds;
+                if(posConejo < 0)
+                    posConejo = 0;
+                if(posTortuga < 0)
+                    posTortuga = 0;
+                
+                if(posConejo == posTortuga)
+                    document.getElementById("imgC").src = "bang.jpg";
+                else
+                    document.getElementById("imgC").src = "liebre.jpg";
+                
+                if(posConejo >= 500){
+                    running = false;
+                    document.getElementById("win").innerHTML = "EL GANADOR: LIEBRE";
+                }
+                    
+                 else if(posTortuga >= 500){
+                     running = false;
+                    document.getElementById("win").innerHTML = "EL GANADOR: TORTUGA";
+                 }
+                
+                else if(posTortuga >= 500 && posConejo >= 500){
+                     running = false;
+                    document.getElementById("win").innerHTML = "EL GANADOR: EMPATE";
+                 }
+                
+                document.getElementById("liebre").style.left = posConejo;
+                document.getElementById("tortuga").style.left = posTortuga;
+            }
+         } 
+        
+        -->
+
+    </script>
+    
+    
+</head>
+<body>
+    <div style="width: 500px;  height: 250px; border-left: 1px solid black; border-right: 1px solid black;">
+        <div id="tortuga">
+            <img src="Tortuga dibujado.jpg" width="45">
+        </div>
+        <br>
+        <br>
+        <div id="liebre">
+            <img id="imgC" src="liebre.jpg" width="55">
+        </div>
+    </div>
+    
+    <h1 id="win">EL GANADOR: </h1> 
+    <input type="button" value="iniciar carrera" onclick="startTimer()"/>
+    <input type="button" value="reset" onclick = "newRace()"/>
+    <div id="resultado">
+    </div>
+
+</body>
+</html>
