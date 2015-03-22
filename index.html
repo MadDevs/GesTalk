@@ -15,6 +15,7 @@
 </body>
 
 <script type="text/javascript">
+    var tempWord = "";
 
 function concatData(id, data){
 	return id + ": " + data + "<br>";
@@ -483,7 +484,7 @@ Leap.loop(options, function(frame) {
 					wordString += "pinch_strength:" + hand.pinchStrength + ",";
 					wordString += "grab_strength:" + hand.grabStrength;
 					wordString += "},output:{";
-					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";				
+					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";			
 					console.log(wordString);
 					tempString += wordString;
 				}
@@ -549,7 +550,7 @@ Leap.loop(options, function(frame) {
 					}
 				}
 				//frameString += "<h1>" + getGest(hand.fingers) + "</h1>";
-				tempString = handString;
+                tempString = handString;
 				tempString += fingerString;
 				if(ans == word){
 					if(cont < 5){
@@ -557,7 +558,13 @@ Leap.loop(options, function(frame) {
 							cont++;
 						}
 					}else{
-						frameString += "<h1>" + word + "</h1>"; 
+						frameString += "<h1>" + word + "</h1>";
+                        if(word != tempWord){
+                            var msg = new SpeechSynthesisUtterance(word);
+                            window.speechSynthesis.speak(msg);
+                            tempWord = word;
+                        }
+                        
 					}
 				}else{
 					cont = 0;
