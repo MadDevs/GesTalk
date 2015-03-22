@@ -66,7 +66,7 @@ Leap.loop(options, function(frame) {
 
 		for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
 			finger = hand.fingers[j];
-			fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
+			fingerString = concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
 			fingerString += concatJointPosition("finger_dip", finger.dipPosition);
 			fingerString += concatJointPosition("finger_pip", finger.pipPosition);
 			fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
