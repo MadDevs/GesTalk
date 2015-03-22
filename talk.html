@@ -458,6 +458,23 @@
         
     }
     
+    function checkBrowser() {
+        c = navigator.userAgent.search("Chrome");
+        f = navigator.userAgent.search("Firefox");
+        m8 = navigator.userAgent.search("MSIE 8.0");
+        m9 = navigator.userAgent.search("MSIE 9.0");
+        if (c > -1) {
+            brwsr = "Chrome";
+        }
+        else if (f > -1) {
+            brwsr = "Firefox";
+        } else if (m9 > -1) {
+            brwsr = "MSIE 9.0";
+        } else if (m8 > -1) {
+            brwsr = "MSIE 8.0";
+        }
+        return brwsr;
+    }
 
     function concatJointPosition(id, position) {
         return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
@@ -595,7 +612,8 @@
         if (suma != 0  && buffer > 50) {
             comparison = suma;
             answerbuffer = suma;
-            if(inNumbers == false && inNeeds == false && inFamily == false && inActions == false)
+            if (inNumbers == false && inNeeds == false && inFamily == false && inActions == false)
+                if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(firstMenu(suma));
             
             else if(inNumbers){
@@ -617,19 +635,23 @@
                     var msg = new SpeechSynthesisUtterance("Back to main menu");
                     inNumbers = false;
                 }
+                if (checkBrowser() == "Chrome") 
                  window.speechSynthesis.speak(msg);
                 
             }
             
-            else if(inNeeds){
+            else if (inNeeds) {
+                if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(needsMenu(suma));
             }
             
-            else if(inFamily){
+            else if (inFamily) {
+                if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(familyMenu(suma));   
             }
             
             else if(inActions){
+                if (checkBrowser() == "Chrome")
                 window.speechSynthesis.speak(actionMenu(suma));
             }
         }

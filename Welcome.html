@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -193,7 +193,29 @@
   </head>
 
   <body>
-
+      <script>
+          var stringchrome = "";
+      function checkBrowser() {
+      c = navigator.userAgent.search("Chrome");
+      f = navigator.userAgent.search("Firefox");
+      m8 = navigator.userAgent.search("MSIE 8.0");
+      m9 = navigator.userAgent.search("MSIE 9.0");
+      if (c > -1) {
+      brwsr = "Chrome";
+      }
+      else if (f > -1) {
+      brwsr = "Firefox";
+      } else if (m9 > -1) {
+      brwsr = "MSIE 9.0";
+      } else if (m8 > -1) {
+      brwsr = "MSIE 8.0";
+      }
+      return brwsr;
+      }
+      if (checkBrowser != "Chrome")
+          stringchrome = "You need chrome to enjoy the use of the voice synthesizer";
+      document.getElementById("chromecheck").innerHTML = stringchrome;
+          </script>
     <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
@@ -220,6 +242,7 @@
               <br />
               <br />
             <p class="lead">A tool for mute people that use sign gestures tu comunicate with people that know about it, using a Leap Motion</p>
+            <h2 id="chromecheck"></h2>
             <p class="lead">
               <a href="http://maddevs.github.io/GesTalk/index.html" class="btn btn-lg btn-default">Start</a>
             </p>
