@@ -365,9 +365,9 @@ Leap.loop(options, function(frame) {
 					}
 					calibrated = true;
 					n = 0;
-					$(document).ready(function(){
+/*					$(document).ready(function(){
 						$("#addWord").show();
-					});
+					});*/
 				}
 			}else{
 				frameString += "<h2>Place one open hand above</h2>";
@@ -428,9 +428,9 @@ Leap.loop(options, function(frame) {
 				if(n<=600){
 					n++;
 				}else{
-/*					$(document).ready(function(){
+					$(document).ready(function(){
 						$("#continue").show();
-					});*/
+					});
 				}
 			}
 		}else{
