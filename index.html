@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="//js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
 </head>
 <body>
 	<h1>Test 1</h1>
@@ -11,7 +11,7 @@
 
 <script type="text/javascript">
 
-function concatData(id,Data){
+function concatData(id, data){
 	return id + ": " + data + "<br>";
 }
 
@@ -28,6 +28,7 @@ Leap.loop(options, function(frame) {
 	frameString += "<br>";
 
 	output.innerHTML = frameString;
-})
+});
+
 </script>
 </html>
