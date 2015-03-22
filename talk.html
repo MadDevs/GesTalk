@@ -151,6 +151,36 @@
         
     }
     
+    function actionMenu(option) {
+        switch(option) {
+                case 1:
+                    submenu.innerHTML = "Option: Call";
+                     var msg = new SpeechSynthesisUtterance("Call");
+                    return msg;
+                    break;
+                case 2:
+                    submenu.innerHTML =  "Option: Help";
+                    var msg = new SpeechSynthesisUtterance("Help");
+                    return msg;
+                    break;
+                case 3:
+                    submenu.innerHTML =  "Option: Buy";
+                    var msg = new SpeechSynthesisUtterance("Buy");
+                    return msg;
+                    break;
+                case 4:
+                    submenu.innerHTML =  "Option: Take me to";
+                     var msg = new SpeechSynthesisUtterance("Take me to");
+                    return msg;
+                    break;
+                default:
+                   submenu.innerHTML =  "Option: ";
+                   var msg = new SpeechSynthesisUtterance("Please select a valid option");
+                    return msg;
+        }
+        
+    }
+    
 
     function concatJointPosition(id, position) {
         return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
@@ -281,6 +311,10 @@
             
             else if(inFamily){
                 window.speechSynthesis.speak(familyMenu(suma));   
+            }
+            
+            else if(inActions){
+                window.speechSynthesis.speak(actionMenu(suma));
             }
         }
         
