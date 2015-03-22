@@ -4,36 +4,183 @@
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
 </head>
 <body>
-	<h1>Le voice test face lime if u like dis</h1>
-	 <p>
-            <a id="speech-btn">1 to 10</a>
-            <script>
-                var button = document.getElementById('speech-btn').addEventListener('click',
-                function onSpeechClick() {
-                    var msg = new SpeechSynthesisUtterance('One');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Two');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Three');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Four');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Five');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Six');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Seven');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('eight');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('Nine');
-                    window.speechSynthesis.speak(msg);
-                    var msg = new SpeechSynthesisUtterance('10');
-                    window.speechSynthesis.speak(msg);
-		    
-                });
-            </script>
-	</p>
+    <h1>Counting up to ten</h1>
+    <h1>Le voice test face lime if u like dis</h1>
+    <p>
+        <a id="speech-btn">1 to 10</a>
+        <script>
+            var button = document.getElementById('speech-btn').addEventListener('click',
+            function onSpeechClick() {
+                var msg = new SpeechSynthesisUtterance('One');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Two');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Three');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Four');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Five');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Six');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Seven');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('eight');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('Nine');
+                window.speechSynthesis.speak(msg);
+                var msg = new SpeechSynthesisUtterance('10');
+                window.speechSynthesis.speak(msg);
+
+            });
+        </script>
+    </p>
+
+
+
+    <h1>Test 3</h1>
+    <div id="output"></div>
 
 </body>
+
+<script type="text/javascript">
+
+    function concatData(id, data) {
+        return id + ": " + data + "<br>";
+    }
+
+    function getFingetName(fingerType) {
+        switch (fingerType) {
+            case 0:
+                return 'Thumb';
+                break;
+
+            case 1:
+                return 'Index';
+                break;
+
+            case 2:
+                return 'Middle';
+                break;
+
+            case 3:
+                return 'Ring';
+                break;
+
+            case 4:
+                return 'Pinky';
+                break;
+        }
+    }
+
+    function concatJointPosition(id, position) {
+        return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
+    }
+
+    var output = document.getElementById("output");
+    var frameString = "", handString = "", fingerString = "";
+    var hand, finger;
+    var lthumb = false, lindex = false, lmiddle = false, lring = false, lpinky = false, rthumb = false, rindex = false, rmiddle = false, rring = false, rpinky = false; //fingers
+    var suma = 0, comparison = 0;
+
+    var options = { enableGestures: true };
+
+    Leap.loop(options, function (frame) {
+        frameString = suma;
+        frameString += "<br>";
+        frameString += concatData("frame_id", frame.id);
+        frameString += concatData("num_hands", frame.hands.length);
+        frameString += concatData("num_fingers", frame.fingers.length);
+        frameString += "<br>";
+
+        for (var i = 0, len = frame.hands.length; i < len; i++) {
+            hand = frame.hands[i];
+            handString = concatData("hand_type", hand.type);
+            handString += concatData("pinch_strength", hand.pinchStrength);
+            handString += concatData("grab_strength", hand.grabStrength);
+            handString += concatData("confidence", hand.confidence);
+
+            handString += "<br>";
+
+            fingerString = ""
+            for (var j = 0, len2 = hand.fingers.length; j < len2; j++) {
+                finger = hand.fingers[j];
+                fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
+                fingerString += concatJointPosition("finger_dip", finger.dipPosition);
+                fingerString += concatJointPosition("finger_pip", finger.pipPosition);
+                fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+                if (finger.extended) {
+                    fingerString += "extended";
+                } else {
+                    fingerString += "not extended";
+                }
+
+                if (hand.type == "right")//Right hand
+                {
+
+                    switch (finger.type) {
+                        case 0:
+                            lthumb = finger.extended;
+                            break;
+
+                        case 1:
+                            lindex = finger.extended;
+                            break;
+
+                        case 2:
+                            lmiddle = finger.extended;
+                            break;
+
+                        case 3:
+                            lring = finger.extended;
+                            break;
+
+                        case 4:
+                            lpinky = finger.extended;
+                            break;
+                    }
+                }
+                else {
+                    switch (finger.type) {
+                        case 0:
+                            rthumb = finger.extended;
+                            break;
+
+                        case 1:
+                            rindex = finger.extended;
+                            break;
+
+                        case 2:
+                            rmiddle = finger.extended;
+                            break;
+
+                        case 3:
+                            rring = finger.extended;
+                            break;
+
+                        case 4:
+                            rpinky = finger.extended;
+                            break;
+                    }
+                }
+
+                fingerString += "<br>";
+            }
+
+            frameString += handString;
+            frameString += fingerString;
+        }
+
+        output.innerHTML = frameString;
+        suma = lthumb + lindex + lmiddle + lring + lpinky + rthumb + rindex + rmiddle + rring + rpinky;
+        if (suma != 0 && suma != comparison) {
+            comparison = suma;
+            var msg = new SpeechSynthesisUtterance(suma);
+            window.speechSynthesis.speak(msg);
+        }
+
+    });
+
+</script>
 </html>
+    
