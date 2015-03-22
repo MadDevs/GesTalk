@@ -71,6 +71,11 @@ Leap.loop(options, function(frame) {
 			fingerString += concatJointPosition("finger_dip", finger.dipPosition);
 			fingerString += concatJointPosition("finger_pip", finger.pipPosition);
 			fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+			if (finger.extended) {
+			    fingerString += "extended";
+			}else {
+			    fingerString += "not extended";
+			}
 			fingerString += "<br>";
 		}
 		
