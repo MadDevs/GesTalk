@@ -184,7 +184,6 @@ function switchBtn(){
 		if(add){
 			$("#addWord").hide();
 			$("#wordInput").show();
-			$("#continue").show();
 		}else{
 			$("#continue").hide();
 			$("#addWord").show();
@@ -205,6 +204,7 @@ var calibrated = false;
 var h = [0,0,0,0,0], leapProm = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]];
 var n = 0, cont = 0;
 var word = "";
+var w = "";
 var ans = "";
 var net = new brain.NeuralNetwork();
 
@@ -409,7 +409,108 @@ var dictionary = [{input:{thumb:0.6963803965028726,index:0.9210490274160849,midd
 {input:{thumb:0.6919255824065922,index:0.5617514579509308,middle:0.5393173306509514,ring:0.4460966802700505,pink:0.47402579879295753,pinch_strength:1,grab_strength:1},output:{World:1}},
 {input:{thumb:0.6903510359161583,index:0.5608864229308834,middle:0.5382780116133202,ring:0.44647203013180087,pink:0.474147188514003,pinch_strength:1,grab_strength:1},output:{World:1}},
 {input:{thumb:0.6937169662434938,index:0.5630597408839872,middle:0.5398072919461447,ring:0.44628635412430406,pink:0.4741533735591687,pinch_strength:1,grab_strength:1},output:{World:1}},
-{input:{thumb:0.6935375576318825,index:0.5644805741961569,middle:0.5410806727528844,ring:0.4456274205581926,pink:0.47395347312544145,pinch_strength:1,grab_strength:1},output:{World:1}}];
+{input:{thumb:0.6935375576318825,index:0.5644805741961569,middle:0.5410806727528844,ring:0.4456274205581926,pink:0.47395347312544145,pinch_strength:1,grab_strength:1},output:{World:1}},
+ {input:{thumb:0.5565481829427917,index:0.931079035128504,middle:0.7573675932072631,ring:0.7070536566197999,pink:0.9088927026071829,pinch_strength:0.701566,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.537341676102965,index:0.9076140365870742,middle:0.7176971338200465,ring:0.6813318402115291,pink:0.8906409147585249,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.5142937094612708,index:0.8974315773494657,middle:0.691889896538315,ring:0.664508666020686,pink:0.879888207194707,pinch_strength:0.999813,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4917386930948621,index:0.8918658175848883,middle:0.6785585560535607,ring:0.6562642514358045,pink:0.8732803815801078,pinch_strength:0.920253,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4808304045705128,index:0.8881861655881129,middle:0.6718010502615354,ring:0.6525094257816937,pink:0.8688192761430862,pinch_strength:0.943977,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.47879238042326067,index:0.884746595342632,middle:0.6683510486444565,ring:0.6510734675315594,pink:0.8680018220263727,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4909822106089157,index:0.8828413088768906,middle:0.6665937327719473,ring:0.6485681254519946,pink:0.8677639103982949,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4984561518463041,index:0.8824396436983549,middle:0.665682508485384,ring:0.6463699830444933,pink:0.867709823730061,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.5025021117216436,index:0.882411471442982,middle:0.6652115470518543,ring:0.6446884496975543,pink:0.864294980967705,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.49218157113324706,index:0.881862801025461,middle:0.6649567118296713,ring:0.6460083992124136,pink:0.857770204039383,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.505925881277639,index:0.8801893701570365,middle:0.6648192430019768,ring:0.6487222919076107,pink:0.8517102728247505,pinch_strength:0.982367,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.50203956251238,index:0.8784450172043503,middle:0.6647388169827381,ring:0.6507259380688128,pink:0.861015516777918,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4969415975800366,index:0.8778902019441799,middle:0.6646922953366247,ring:0.6506987680354913,pink:0.8664908143250964,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.487251844844958,index:0.8777321255679305,middle:0.6646580910896754,ring:0.650721382582065,pink:0.867813694716594,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4784071671862554,index:0.8771039699929492,middle:0.6646408217881044,ring:0.6503543354937951,pink:0.8686680069800485,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.47013888491601863,index:0.8755126302070856,middle:0.6646227477838565,ring:0.6482895789122218,pink:0.8687456718870833,pinch_strength:0.987659,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4651296950956216,index:0.8729142021450892,middle:0.6646102422380896,ring:0.6468670144718583,pink:0.8705079208963263,pinch_strength:0.98285,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4633115483402738,index:0.8708165205028917,middle:0.6645989759582644,ring:0.645691797485532,pink:0.8719432074333974,pinch_strength:0.975418,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46450214809639206,index:0.8695048981431188,middle:0.6645910144199827,ring:0.6453241568171085,pink:0.873330248254975,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46619289436318745,index:0.8693870969831733,middle:0.6645841052778805,ring:0.64563824410707,pink:0.8748538104782995,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46323476407719183,index:0.8705921745279217,middle:0.664580111825924,ring:0.6453594747956336,pink:0.8769928827249237,pinch_strength:0.945768,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46151373155133707,index:0.8723807001778345,middle:0.6645713366219107,ring:0.6458482400477414,pink:0.8779330844403443,pinch_strength:0.969655,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46430167198536887,index:0.8742118916542727,middle:0.6645642563412235,ring:0.6455275694149051,pink:0.8776506265963059,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4616632088741086,index:0.8766613374373681,middle:0.6645569834387702,ring:0.6458097709164937,pink:0.8778467694623832,pinch_strength:0.952778,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45864969667426103,index:0.8779600934338895,middle:0.6645554285738087,ring:0.6459121320361532,pink:0.878088709638345,pinch_strength:0.925783,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4576740174082097,index:0.8776379422272497,middle:0.6645545287421569,ring:0.6477107963539962,pink:0.8783560575615167,pinch_strength:0.924771,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4574369012578036,index:0.8767232482285152,middle:0.6645504485450809,ring:0.6500019475015012,pink:0.8780203792489396,pinch_strength:0.922552,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45737437402533326,index:0.8760288996584502,middle:0.6645474569543731,ring:0.6509523829908518,pink:0.8775894309503764,pinch_strength:0.9218,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4574101482467319,index:0.8754949906786464,middle:0.6645424814118138,ring:0.6513970024254148,pink:0.8772877544938339,pinch_strength:0.923388,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45746562481976766,index:0.8750410985870457,middle:0.6645394867886751,ring:0.6514448614256462,pink:0.8773051601205079,pinch_strength:0.925536,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45751839923616755,index:0.8736246224726364,middle:0.6645403062759697,ring:0.6515696683177069,pink:0.8774742777907736,pinch_strength:0.925705,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.457559670753622,index:0.8723674219152348,middle:0.6645371433853421,ring:0.6514555697548932,pink:0.8775648125478472,pinch_strength:0.926386,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4570114635589925,index:0.8713673616679624,middle:0.6645376217106701,ring:0.6516409639581263,pink:0.8775645180175212,pinch_strength:0.912335,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4559382580728404,index:0.8714010217923319,middle:0.6645324951332234,ring:0.6523053950031095,pink:0.876653277419345,pinch_strength:0.862052,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4553984207327149,index:0.8708184460371464,middle:0.664528412090575,ring:0.6520724649802098,pink:0.8754779298374538,pinch_strength:0.859031,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4551324242529981,index:0.8705403938204249,middle:0.6645284132869365,ring:0.6514814053105612,pink:0.8747980073409541,pinch_strength:0.859219,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45499777829375215,index:0.8704360762954857,middle:0.6645231644766384,ring:0.6508494902960188,pink:0.8747362265992605,pinch_strength:0.859895,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4549330996974964,index:0.8703241973479418,middle:0.6645241911662229,ring:0.650688527748398,pink:0.8750978679854821,pinch_strength:0.859456,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45489956202743326,index:0.8713770986817416,middle:0.6645235333704137,ring:0.6487339768663346,pink:0.8755390647552937,pinch_strength:0.864691,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45487241788271726,index:0.8720946825049101,middle:0.6645213749775152,ring:0.6465210905483162,pink:0.8761593348624805,pinch_strength:0.868406,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45824020612204064,index:0.8689937406276477,middle:0.6645189779240489,ring:0.6474708906489315,pink:0.8738789405486548,pinch_strength:0.973285,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4593636558910909,index:0.8663469460450545,middle:0.6645214823608994,ring:0.6484192903946558,pink:0.872409964701442,pinch_strength:0.978012,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4589914219910211,index:0.8650240087458367,middle:0.66451745857833,ring:0.6496457589957711,pink:0.872397089566191,pinch_strength:0.986575,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4579126246079402,index:0.8645606750260391,middle:0.6645140949478234,ring:0.6508902057802993,pink:0.8731909884505986,pinch_strength:0.97808,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4565998318111529,index:0.8642562798949953,middle:0.6645166012350483,ring:0.6516723560322156,pink:0.8744753519256954,pinch_strength:0.973629,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45567890311514425,index:0.8642058165621184,middle:0.6645156100632024,ring:0.6521352037319734,pink:0.875009418931266,pinch_strength:0.929269,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45728054071336394,index:0.864629830471298,middle:0.6645173513975111,ring:0.651823171176887,pink:0.8760321189656589,pinch_strength:0.94714,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45713765717927823,index:0.8645565103931421,middle:0.6645156142063673,ring:0.6516841042144621,pink:0.8766825760238856,pinch_strength:0.956142,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45755523346421556,index:0.8632210841473655,middle:0.6645152532886491,ring:0.6519284302424756,pink:0.8769636494104653,pinch_strength:0.912059,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4584289051774514,index:0.8625200885781539,middle:0.6645127024582261,ring:0.6521913281980348,pink:0.8770386279497068,pinch_strength:0.9279,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4632313791307243,index:0.8634768221177711,middle:0.6645129153209631,ring:0.6513115790144337,pink:0.8784530487119578,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46463091860852157,index:0.8649936965284915,middle:0.6645087591893214,ring:0.651240452110739,pink:0.8795274431045018,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4638392889038249,index:0.8657713196859784,middle:0.6645097834954103,ring:0.6514535796574923,pink:0.8798582587541817,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4603090087869775,index:0.866358080311355,middle:0.6645074847860675,ring:0.6517495283801413,pink:0.8795775100306044,pinch_strength:0.988547,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4565050398516378,index:0.8667714279163606,middle:0.6645070281613651,ring:0.6517744338176381,pink:0.87886715360008,pinch_strength:0.962495,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45534705081588206,index:0.8667030255056539,middle:0.6645086333497607,ring:0.6510124582067807,pink:0.8773903267173029,pinch_strength:0.98816,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45547591912866037,index:0.8664886754283022,middle:0.6645061075110907,ring:0.6505015617791345,pink:0.8764863292646876,pinch_strength:0.978421,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.455172109610743,index:0.8659421342200915,middle:0.6645060348964318,ring:0.6505383542796054,pink:0.8764015255946358,pinch_strength:0.991422,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4541622141928612,index:0.8649622500034968,middle:0.6645074545574452,ring:0.6513305561472171,pink:0.8761057204239214,pinch_strength:0.969549,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4550002290203842,index:0.8652513477846859,middle:0.6645090537628375,ring:0.6514324628492708,pink:0.8763016365657478,pinch_strength:0.921111,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4544847268211308,index:0.8653858176613426,middle:0.6645093342835352,ring:0.6507550960242587,pink:0.8776753344546728,pinch_strength:0.95245,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45431878520793106,index:0.8652318722072793,middle:0.6645070779079617,ring:0.6497181210044016,pink:0.8792041234480049,pinch_strength:0.948981,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45464885432157076,index:0.8657812858605601,middle:0.6645062414450937,ring:0.6491025796423804,pink:0.880124273651247,pinch_strength:0.932216,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45932773437605795,index:0.8665907904604975,middle:0.6645067978770066,ring:0.6479146751725432,pink:0.880790882663089,pinch_strength:0.983793,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4682370829381798,index:0.8669994912568485,middle:0.6645077873629508,ring:0.647028401176819,pink:0.8812762447646804,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4963584407822638,index:0.8675908253438206,middle:0.6645050218505191,ring:0.6439250155751327,pink:0.8818553221113338,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.49315222625497207,index:0.8680268769098941,middle:0.664500541909655,ring:0.6430760864352556,pink:0.8826820084691956,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.47931497986059485,index:0.8678193356940084,middle:0.6644960889397088,ring:0.643046161949017,pink:0.8830211646566124,pinch_strength:0.993259,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4749656921914214,index:0.867566059004977,middle:0.6645010060420157,ring:0.6435136614480003,pink:0.8832209895089654,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.472755221334671,index:0.8678759031055656,middle:0.6645040110784514,ring:0.6433061451877864,pink:0.883184838487141,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4685628890450744,index:0.8682539736270999,middle:0.6645017829395508,ring:0.6429977293782466,pink:0.8828151801656616,pinch_strength:1,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4630278142527459,index:0.8684991203716321,middle:0.6644996738080184,ring:0.6422976823859177,pink:0.8825810011907746,pinch_strength:0.968373,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4609599024837791,index:0.8685695200048046,middle:0.6644973702275395,ring:0.6420676326317482,pink:0.8824001098170808,pinch_strength:0.962886,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4592001942173796,index:0.869058912294072,middle:0.6644964680217852,ring:0.642452020961537,pink:0.8821593448436994,pinch_strength:0.950708,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45858280273604307,index:0.8696788385256817,middle:0.6644990439572852,ring:0.6408154207357339,pink:0.8821083028159672,pinch_strength:0.92368,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4580283989954449,index:0.8703104128541891,middle:0.6644962681869182,ring:0.6380735608580177,pink:0.8817101309738559,pinch_strength:0.919916,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45768337153387156,index:0.8696391238267056,middle:0.6644938504378737,ring:0.6357551423920114,pink:0.8819078969276277,pinch_strength:0.921715,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45768906836045425,index:0.8682307719743221,middle:0.6644973206652971,ring:0.6344719519987017,pink:0.881919331958319,pinch_strength:0.91991,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4573132197315066,index:0.8661909682601496,middle:0.6644993379952092,ring:0.6348008198151189,pink:0.8817955759827782,pinch_strength:0.926988,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4569249331924154,index:0.8643912113635199,middle:0.6644991874626133,ring:0.6355523761064036,pink:0.8817051465937064,pinch_strength:0.92598,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4566119829221792,index:0.863194299673509,middle:0.6644982397954534,ring:0.6371183476152456,pink:0.8816279557488664,pinch_strength:0.91902,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4571357080431925,index:0.8623562537957973,middle:0.6644983458709683,ring:0.6376995888881819,pink:0.8811346104092251,pinch_strength:0.927242,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4574984932159273,index:0.86230013538589,middle:0.6644977222129062,ring:0.6355392136329648,pink:0.8801076880265563,pinch_strength:0.92221,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4579129555700048,index:0.8618622420047838,middle:0.6644967851509559,ring:0.6343481550588036,pink:0.8803451623763664,pinch_strength:0.919215,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45826060365748467,index:0.8611646192343076,middle:0.664494423505073,ring:0.6338759702278355,pink:0.8811138204517508,pinch_strength:0.909187,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4582539186807439,index:0.8609096863169033,middle:0.6644950555020576,ring:0.6329553330583135,pink:0.881746625876359,pinch_strength:0.921638,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46178411715713347,index:0.8607213332920373,middle:0.6644958352082742,ring:0.6317269423187407,pink:0.8825249083619913,pinch_strength:0.992837,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46876834645559834,index:0.8607104652746074,middle:0.6644956875574534,ring:0.6361018523547367,pink:0.8817369054777479,pinch_strength:0.914131,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.46580289762667587,index:0.8609227131662978,middle:0.6644936655900021,ring:0.6387210414764413,pink:0.8807957464211922,pinch_strength:0.898999,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4615141619775569,index:0.861205325346166,middle:0.6644960223531304,ring:0.6408720332975776,pink:0.8786955436792914,pinch_strength:0.938152,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4589576007395402,index:0.8613819543263297,middle:0.6644949360064977,ring:0.6450433913460207,pink:0.8773925374948085,pinch_strength:0.945509,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45765786226562305,index:0.8613389889788747,middle:0.6644918280522241,ring:0.647821871220649,pink:0.8764647907157758,pinch_strength:0.944864,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45700000592266965,index:0.8617162275415363,middle:0.6644943375654597,ring:0.6494039495766154,pink:0.8756969395678833,pinch_strength:0.944137,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.456664322319892,index:0.8621995740401115,middle:0.6644916075373777,ring:0.6492939013909582,pink:0.8754460859324018,pinch_strength:0.946124,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.456495186780171,index:0.8628212578734595,middle:0.6644910151669426,ring:0.6498450794302598,pink:0.8750318203468297,pinch_strength:0.946338,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45640855768150396,index:0.8634624724131246,middle:0.6644912707986205,ring:0.6500079872710202,pink:0.8741060924732976,pinch_strength:0.948628,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45636381629199296,index:0.8636955388471069,middle:0.6644919639952335,ring:0.6493973058923563,pink:0.8731347305522632,pinch_strength:0.949903,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45634024375039134,index:0.863667637905936,middle:0.6644945517410916,ring:0.6497852202555658,pink:0.8725315381237947,pinch_strength:0.948488,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45632068762579503,index:0.8636049731163864,middle:0.6644914304856189,ring:0.6489493191178383,pink:0.8719525429095443,pinch_strength:0.949008,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.4563177771223811,index:0.8636913303296532,middle:0.664493464431395,ring:0.6483021670850042,pink:0.8716324730932943,pinch_strength:0.94994,grab_strength:0},output:{Rock:1}},
+ {input:{thumb:0.45631274310213465,index:0.8641052893633036,middle:0.6644937668735303,ring:0.6480655011949646,pink:0.8714603709819673,pinch_strength:0.950848,grab_strength:0},output:{Rock:1}}];
 
 Leap.loop(options, function(frame) {
 	if(!calibrated){
@@ -484,16 +585,37 @@ Leap.loop(options, function(frame) {
 					wordString += "pinch_strength:" + hand.pinchStrength + ",";
 					wordString += "grab_strength:" + hand.grabStrength;
 					wordString += "},output:{";
+<<<<<<< HEAD
 					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";			
+=======
+					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";
+					var input = {
+						input:
+						{thumb: leapProm[i][0]/h[0],
+							index: leapProm[i][1]/h[1],
+							middle: leapProm[i][2]/h[2],
+							ring: leapProm[i][3]/h[3],
+							pink: leapProm[i][4]/h[4],
+							pinch_strength: hand.pinchStrength,
+							grab_strength: hand.grabStrength
+						},
+						output:
+						{wor : 1}
+					};
+					dictionary[dictionary.length] = input;
+>>>>>>> origin/gh-pages
 					console.log(wordString);
-					tempString += wordString;
 				}
 				if(n<=600){
 					n++;
+				}else{
+					$(document).ready(function(){
+						$("#continue").show();
+					});
 				}
 			}
 		}else{
-			frameString = "";
+			frameString = dictionary.length;
 			// frameString += concatData("num_hands", frame.hands.length);
 			// frameString += concatData("num_fingers", frame.fingers.length);
 			n = (n + 1) % 60;
@@ -558,6 +680,7 @@ Leap.loop(options, function(frame) {
 							cont++;
 						}
 					}else{
+<<<<<<< HEAD
 						frameString += "<h1>" + word + "</h1>";
                         if(word != tempWord){
                             var msg = new SpeechSynthesisUtterance(word);
@@ -565,11 +688,15 @@ Leap.loop(options, function(frame) {
                             tempWord = word;
                         }
                         
+=======
+						w=word;
+>>>>>>> origin/gh-pages
 					}
 				}else{
 					cont = 0;
 					word = ans;
 				}
+				frameString += "<h1>" + w + "</h1>"; 
 			}
 		}
 	}
