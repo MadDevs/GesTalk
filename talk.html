@@ -2,15 +2,123 @@
 <html>
 <head>
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+    
+    
+    <style>
+
+              /* Space out content a bit */
+        body {
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+
+        /* Everything but the jumbotron gets side spacing for mobile first views */
+        .header,
+        .marketing,
+        .footer {
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+
+        /* Custom page header */
+        .header {
+          padding-bottom: 20px;
+          border-bottom: 1px solid #e5e5e5;
+        }
+        /* Make the masthead heading the same height as the navigation */
+        .header h3 {
+          margin-top: 0;
+          margin-bottom: 0;
+          line-height: 40px;
+        }
+
+        /* Custom page footer */
+        .footer {
+          padding-top: 19px;
+          color: #777;
+          border-top: 1px solid #e5e5e5;
+        }
+
+        /* Customize container */
+        @media (min-width: 768px) {
+          .container {
+            max-width: 730px;
+          }
+        }
+        .container-narrow > hr {
+          margin: 30px 0;
+        }
+
+        /* Main marketing message and sign up button */
+        .jumbotron {
+          text-align: center;
+          border-bottom: 1px solid #e5e5e5;
+        }
+        .jumbotron .btn {
+          padding: 14px 24px;
+          font-size: 21px;
+        }
+
+        /* Supporting marketing content */
+        .marketing {
+          margin: 40px 0;
+        }
+        .marketing p + h4 {
+          margin-top: 28px;
+        }
+
+        /* Responsive: Portrait tablets and up */
+        @media screen and (min-width: 768px) {
+          /* Remove the padding we set earlier */
+          .header,
+          .marketing,
+          .footer {
+            padding-right: 0;
+            padding-left: 0;
+          }
+          /* Space out the masthead */
+          .header {
+            margin-bottom: 30px;
+          }
+          /* Remove the bottom border on the jumbotron for visual effect */
+          .jumbotron {
+            border-bottom: 0;
+          }
+        }
+
+      
+      </style>
+    
+    
 </head>
 <body>
-    <h1 id="menu">Current Menu: </h1>
-    <h2 id="submenu">Option: </h2>
-
-    <h1>Test 3</h1>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
     <div id="output"></div>
+    <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="http://maddevs.github.io/GesTalk/Welcome.html">Home</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">White Shark: GesTalk</h3>
+      </div>
 
-</body>
+      <div class="jumbotron">
+          <h1 id="buffertext"></h1>
+          <br />
+        <h2 id="menu">Current Menu: </h1>
+        <h3 id="submenu">Option: </h2>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Mad Devs 2015</p>
+      </footer>
+
+    </div> 
+
 
 <script type="text/javascript">
     
@@ -241,28 +349,13 @@
     Leap.loop(options, function (frame) {
         
         frameString = suma;
-        frameString += "<br>";
-        frameString += concatData("frame_id", frame.id);
-        frameString += concatData("num_hands", frame.hands.length);
-        frameString += concatData("num_fingers", frame.fingers.length);
-        frameString += "<br>";
          for (var i = 0, len = frame.hands.length; i < len; i++) {
             
             hand = frame.hands[i];
-            handString = concatData("hand_type", hand.type);
-            handString += concatData("pinch_strength", hand.pinchStrength);
-            handString += concatData("grab_strength", hand.grabStrength);
-            handString += concatData("confidence", hand.confidence);
-
-            handString += "<br>";
-
-            fingerString = ""
+            
             for (var j = 0, len2 = hand.fingers.length; j < len2; j++) {
                 finger = hand.fingers[j];
-                fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
-                fingerString += concatJointPosition("finger_dip", finger.dipPosition);
-                fingerString += concatJointPosition("finger_pip", finger.pipPosition);
-                fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+                
                 if (finger.extended) {
                     fingerString += "extended";
                 } else {
@@ -318,14 +411,11 @@
                     }
                 }
 
-                fingerString += "<br>";
+                
             }
-
-            frameString += handString;
-            frameString += fingerString;
         }
 
-        output.innerHTML = frameString;
+        //output.innerHTML = frameString;
         suma = lthumb + lindex + lmiddle + lring + lpinky + rthumb + rindex + rmiddle + rring + rpinky;
         if (suma != buffercomparison)
         {
@@ -383,5 +473,6 @@
     });
 
 </script>
+    </body>
 </html>
     
