@@ -428,13 +428,13 @@ Leap.loop(options, function(frame) {
 				if(n<=600){
 					n++;
 				}else{
-					$(document).ready(function(){
+/*					$(document).ready(function(){
 						$("#continue").show();
-					});
+					});*/
 				}
 			}
 		}else{
-			frameString = dictionary.length;
+			frameString = "<h1>Make Gestures</h1>";
 			// frameString += concatData("num_hands", frame.hands.length);
 			// frameString += concatData("num_fingers", frame.fingers.length);
 			n = (n + 1) % 60;
