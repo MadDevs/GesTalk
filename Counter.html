@@ -1,48 +1,47 @@
+
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
-</head>
-<body>
-    <h1>Counting up to ten</h1>
-    <h1>Le voice test face lime if u like dis</h1>
-    <p>
-        <a id="speech-btn">1 to 10</a>
-        <script>
-            var button = document.getElementById('speech-btn').addEventListener('click',
-            function onSpeechClick() {
-                var msg = new SpeechSynthesisUtterance('One');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Two');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Three');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Four');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Five');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Six');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Seven');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('eight');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Nine');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('10');
-                window.speechSynthesis.speak(msg);
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+  </head>
 
-            });
-        </script>
-    </p>
+  <body>
 
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="http://maddevs.github.io/GesTalk/">Home</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">White Shark: Couting App</h3>
+      </div>
 
+      <div class="jumbotron">
+        <h2>Your number:</h2>
+        <h1 id = "output"></h1>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Stop</a></p>
+      </div>
 
-    <h1>Test 3</h1>
-    <div id="output"></div>
+      <footer class="footer">
+        <p>&copy; Mad Devs 2015</p>
+      </footer>
 
-</body>
-
+    </div> 
+<!--<div id = "output"></div>-->
 <script type="text/javascript">
 
     function concatData(id, data) {
@@ -89,9 +88,9 @@
     Leap.loop(options, function (frame) {
         frameString = suma;
         frameString += "<br>";
-        frameString += concatData("frame_id", frame.id);
-        frameString += concatData("num_hands", frame.hands.length);
-        frameString += concatData("num_fingers", frame.fingers.length);
+        //frameString += concatData("frame_id", frame.id);
+        //frameString += concatData("num_hands", frame.hands.length);
+        //frameString += concatData("num_fingers", frame.fingers.length);
         frameString += "<br>";
          for (var i = 0, len = frame.hands.length; i < len; i++) {
             
@@ -168,8 +167,8 @@
                 fingerString += "<br>";
             }
 
-            frameString += handString;
-            frameString += fingerString;
+            //frameString += handString;
+            //frameString += fingerString;
         }
 
         output.innerHTML = frameString;
@@ -186,6 +185,7 @@
             suma = 0;
         if (suma != 0 && suma != comparison && buffer > 50) {
             comparison = suma;
+            //output.innerHTML = suma;
             var msg = new SpeechSynthesisUtterance(suma);
             window.speechSynthesis.speak(msg);
         }
@@ -193,5 +193,9 @@
     });
 
 </script>
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>
-    
