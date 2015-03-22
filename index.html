@@ -15,6 +15,135 @@ function concatData(id, data){
 	return id + ": " + data + "<br>";
 }
 
+function getGest(fingers){
+	if(fingers[0].extended){
+		if(fingers[1].extended){
+			if(fingers[2].extended){
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "Thumb Index Middle Ring Pinky";
+					}else{
+						return "Thumb Index Middle Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "Thumb Index Middle   Pinky";
+					}else{
+						return "Thumb Index Middle    ";
+					}
+				}
+			}else{
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "Thumb Index   Ring Pinky";
+					}else{
+						return "Thumb Index   Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "Thumb Index     Pinky";
+					}else{
+						return "Thumb Index      ";
+					}
+				}
+			}
+		}else{
+			if(fingers[2].extended){
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "Thumb   Middle Ring Pinky";
+					}else{
+						return "Thumb   Middle Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "Thumb   Middle   Pinky";
+					}else{
+						return "Thumb   Middle    ";
+					}
+				}
+			}else{
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "Thumb   Middle Ring Pinky";
+					}else{
+						return "Thumb   Middle Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "Thumb   Middle   Pinky";
+					}else{
+						return "Thumb   Middle    ";
+					}
+				}
+			}
+		}
+	}else{
+		if(fingers[1].extended){
+			if(fingers[2].extended){
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "	 Index Middle Ring Pinky";
+					}else{
+						return "	 Index Middle Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "	 Index Middle   Pinky";
+					}else{
+						return "	 Index Middle    ";
+					}
+				}
+			}else{
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "	 Index   Ring Pinky";
+					}else{
+						return "	 Index   Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "	 Index     Pinky";
+					}else{
+						return "	 Index      ";
+					}
+				}
+			}
+		}else{
+			if(fingers[2].extended){
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "	 	 Middle Ring Pinky";
+					}else{
+						return "	 	 Middle Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "	 	 Middle   Pinky";
+					}else{
+						return "	 	 Middle    ";
+					}
+				}
+			}else{
+				if(fingers[3].extended){
+					if(fingers[4].extended){
+						return "	 	 	 Ring Pinky";
+					}else{
+						return "	 	 	 Ring  ";
+					}
+				}else{
+					if(fingers[4].extended){
+						return "	 	 	 	 Pinky";
+					}else{
+						return "	 	 	 	 	";
+					}
+				}
+			}
+		}
+	}
+	return 
+}
+
 function getFingetName(fingerType){
 	switch(fingerType) {
 		case 0:
@@ -68,9 +197,9 @@ Leap.loop(options, function(frame) {
 		for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
 			finger = hand.fingers[j];
 			fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
-			fingerString += concatJointPosition("finger_dip", finger.dipPosition);
-			fingerString += concatJointPosition("finger_pip", finger.pipPosition);
-			fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+			// fingerString += concatJointPosition("finger_dip", finger.dipPosition);
+			// fingerString += concatJointPosition("finger_pip", finger.pipPosition);
+			// fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
 			if (finger.extended) {
 			    fingerString += "extended";
 			}else {
@@ -78,7 +207,8 @@ Leap.loop(options, function(frame) {
 			}
 			fingerString += "<br>";
 		}
-		
+		frameString += "<h1>" + getGest(hand.fingers) + "</h1>";
+		frameString += "<br>";
 		frameString += handString;
 		frameString += fingerString;
 	}
