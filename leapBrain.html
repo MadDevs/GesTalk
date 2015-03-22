@@ -34,17 +34,26 @@ var net = new brain.NeuralNetwork();
 net.train([{input: { thumb: 0, index: 0, middle: 0, ring: 0, pink: 0}, output: { zero: 1}},
            {input: { thumb: .5, index: .5, middle: .5, ring: .5, pink: .5}, output: { five: 1}},
 		   {input: { thumb: .6, index: .6, middle: .6, ring: .6, pink: .6}, output: { six: 1}},
-		   {input: { thumb: .45, index: .45, middle: .45, ring: .45, pink: .45}, output: { five: 1}},
+		   {input: { thumb: .45, index: .45, middle: .45, ring: .45, pink: .45}, output: { ffive: 1}},
 		   {input: { thumb: .4, index: .4, middle: .4, ring: .4, pink: .4}, output: { four: 1}},
-		   {input: { thumb: 1, index: 1, middle: 1, ring: 1, pink: 1}, output: { one: 1}}]);
+		   {input: { thumb: 1, index: 1, middle: 1, ring: 1, pink: 1}, output: { one: 1}},
+           {input: { thumb: .8, index: .8, middle: .8, ring: .8, pink: .8}, output: { womba: 1}}], {
+            errorThresh: 0.03, log: true});
 		   
 // Receives 5 floats (position from tip of finger to palm) and 1 string (word it trains for)
-function calibrateForWord(thum, inde, middl, rin, pink, wor) {
-  net.train([{input: { thumb: thum, index: inde, middle: middl, ring: rin, pink: pin}, output: { word: wor}}]);
+function calibrateForWord(thum, inde, middl, rin, pin, wor) {
+    console.log("thum: " + thum.toString());
+  net.train([{input: { thumb: .5, index: .5, middle: .5, ring: .5, pink: .5}, output: { womba: 1}}]);
 }
+    
+function startTimer() 
+     {
+        running = true;
+         window.setInterval( "calibrateForWord(.5, .5, .5, .5, .5, 'hello')", 500 );
+         console.log("window.setInterval( calibrateForWord(.5, .5, .5, .5, .5, 'hello'), 500 );");
+     } 
 
-</script>
-<script>
+
 // Store frame for motion functions
 var previousFrame = null;
 var paused = false;
@@ -255,6 +264,14 @@ function togglePause() {
   }
 }
 
+    function display(id){
+        var BrainOutput = document.getElementById(id);
+        var output = net.run({ thumb: .8, index: .8, middle: .8, ring: .8, pink: .8 });  // { white: 0.99, black: 0.002 }
+        BrainOutput.innerHTML = JSON.stringify(output);
+
+    }
+
+    
 function pauseForGestures() {
   if (document.getElementById("pauseOnGesture").checked) {
     pauseOnGesture = true;
@@ -269,7 +286,10 @@ function pauseForGestures() {
 <h1>Leap Motion JavaScript Sample</h1>
 <div id="main">
   <div id="braim"></div>
+<input type="button" value="capture" onclick="startTimer()"/>
   <button id="pause" onclick="togglePause()">Pause</button>
+<button id="demo" onclick="display('test')">Demo</button>
+    <div id="test"></div>
   <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause on gesture</input>
   <h3>Frame data:</h3>
   <div id="frameData"></div>
@@ -282,14 +302,8 @@ function pauseForGestures() {
   <div style="clear:both;"></div>
   <h3>Gesture data:</h3>
   <div id="gestureData"></div>
-  <script>
-  
-// Printing the NEURAL NETWORK result
-var BrainOutput = document.getElementById("braim");
-var output = net.run({ thumb: .5, index: .5, middle: .5, ring: .5, pink: .5 });  // { white: 0.99, black: 0.002 }
-BrainOutput.innerHTML = JSON.stringify(output);
 
-  </script>
+
 </div>
 </body>
 </html>

@@ -4,39 +4,8 @@
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
 </head>
 <body>
-    <h1>Counting up to ten</h1>
-    <h1>Le voice test face lime if u like dis</h1>
-    <p>
-        <a id="speech-btn">1 to 10</a>
-        <script>
-            var button = document.getElementById('speech-btn').addEventListener('click',
-            function onSpeechClick() {
-                var msg = new SpeechSynthesisUtterance('One');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Two');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Three');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Four');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Five');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Six');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Seven');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('eight');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('Nine');
-                window.speechSynthesis.speak(msg);
-                var msg = new SpeechSynthesisUtterance('10');
-                window.speechSynthesis.speak(msg);
-
-            });
-        </script>
-    </p>
-
-
+    <h1 id="menu">Current Menu: </h1>
+    <h2 id="submenu">Option: </h2>
 
     <h1>Test 3</h1>
     <div id="output"></div>
@@ -44,7 +13,18 @@
 </body>
 
 <script type="text/javascript">
+    
+    // *********************NEW STUFF
+    var menuOption = "";
+    var firstItems = [inNumbers = false, inNeeds = false, inFamily = false, inActions = false];
 
+    
+    function toFalse(array) {
+        for(var i = 0; i < firstItems.length; i++){
+                firstItems[i] = false;
+        }
+    }
+    
     function concatData(id, data) {
         return id + ": " + data + "<br>";
     }
@@ -72,11 +52,110 @@
                 break;
         }
     }
+    
+    // *********************NEW STUFF
+    function firstMenu(option) {
+        switch(option) {
+                case 1:
+                    menu.innerHTML = "Current Menu: Numbers";
+                    inNumbers = true;
+                    var msg = new SpeechSynthesisUtterance("You selected the numbers menu");
+                    return msg;
+                    break;
+                case 2:
+                    menu.innerHTML =  "Current Menu: Needs";
+                    inNeeds = true;
+                    var msg = new SpeechSynthesisUtterance("You selected the needs menu");
+                    return msg;
+                    break;
+                case 3:
+                    menu.innerHTML =  "Current Menu: Family";
+                    inFamily = true;
+                    var msg = new SpeechSynthesisUtterance("You selected the family menu");
+                    return msg;
+                    break;
+                case 4:
+                    menu.innerHTML =  "Current Menu: Actions";
+                    inActions = true;
+                    var msg = new SpeechSynthesisUtterance("You selected the actions menu");
+                    return msg;
+                    break;
+                default:
+                   menu.innerHTML =  "Current Menu: ";
+                    toFalse(firstItems);
+                   var msg = new SpeechSynthesisUtterance("Please select a valid option");
+                    return msg;
+        }
+        
+    }
+    
+    
+    
+    function needsMenu(option) {
+        switch(option) {
+                case 1:
+                    submenu.innerHTML = "Option: Food";
+                     var msg = new SpeechSynthesisUtterance("I need food");
+                    return msg;
+                    break;
+                case 2:
+                    submenu.innerHTML =  "Option: Water";
+                    var msg = new SpeechSynthesisUtterance("I need water");
+                    return msg;
+                    break;
+                case 3:
+                    submenu.innerHTML =  "Option: Help";
+                    var msg = new SpeechSynthesisUtterance("I need help");
+                    return msg;
+                    break;
+                case 4:
+                    submenu.innerHTML =  "Option: Sleep";
+                     var msg = new SpeechSynthesisUtterance("I need to sleep");
+                    return msg;
+                    break;
+                default:
+                   submenu.innerHTML =  "Option: ";
+                   var msg = new SpeechSynthesisUtterance("Please select a valid option");
+                    return msg;
+        }
+        
+    }
+    
+    function familyMenu(option) {
+        switch(option) {
+                case 1:
+                    submenu.innerHTML = "Option: Father";
+                     var msg = new SpeechSynthesisUtterance("Father");
+                    return msg;
+                    break;
+                case 2:
+                    submenu.innerHTML =  "Option: Mother";
+                    var msg = new SpeechSynthesisUtterance("Mother");
+                    return msg;
+                    break;
+                case 3:
+                    submenu.innerHTML =  "Option: Sister";
+                    var msg = new SpeechSynthesisUtterance("Sister");
+                    return msg;
+                    break;
+                case 4:
+                    submenu.innerHTML =  "Option: Brother";
+                     var msg = new SpeechSynthesisUtterance("Brother");
+                    return msg;
+                    break;
+                default:
+                   submenu.innerHTML =  "Option: ";
+                   var msg = new SpeechSynthesisUtterance("Please select a valid option");
+                    return msg;
+        }
+        
+    }
+    
 
     function concatJointPosition(id, position) {
         return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
     }
-
+    
     var output = document.getElementById("output");
     var frameString = "", handString = "", fingerString = "";
     var hand, finger;
@@ -87,6 +166,7 @@
     var options = { enableGestures: true };
 
     Leap.loop(options, function (frame) {
+        
         frameString = suma;
         frameString += "<br>";
         frameString += concatData("frame_id", frame.id);
@@ -191,9 +271,23 @@
             suma = 0;
         if (suma != 0 && suma != comparison && buffer > 50) {
             comparison = suma;
-            var msg = new SpeechSynthesisUtterance(suma);
-            window.speechSynthesis.speak(msg);
+            
+            if(inNumbers == false && inNeeds == false && inFamily == false && inActions == false)
+                window.speechSynthesis.speak(firstMenu(suma));
+            
+            else if(inNeeds){
+                window.speechSynthesis.speak(needsMenu(suma));
+            }
+            
+            else if(inFamily){
+                window.speechSynthesis.speak(familyMenu(suma));   
+            }
         }
+        
+//        console.log("Numbers: " + inNumbers);
+//        console.log("Needs: " + inNeeds);
+//        console.log("Family: " + inFamily);
+//        console.log("Actions: " + inActions);
 
     });
 
