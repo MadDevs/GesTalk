@@ -41,7 +41,7 @@
       </footer>
 
     </div> 
-<!--    <div id = "output"></div>-->
+<!--<div id = "output"></div>-->
 <script type="text/javascript">
 
     function concatData(id, data) {
@@ -88,9 +88,9 @@
     Leap.loop(options, function (frame) {
         frameString = suma;
         frameString += "<br>";
-        frameString += concatData("frame_id", frame.id);
-        frameString += concatData("num_hands", frame.hands.length);
-        frameString += concatData("num_fingers", frame.fingers.length);
+        //frameString += concatData("frame_id", frame.id);
+        //frameString += concatData("num_hands", frame.hands.length);
+        //frameString += concatData("num_fingers", frame.fingers.length);
         frameString += "<br>";
          for (var i = 0, len = frame.hands.length; i < len; i++) {
             
@@ -167,11 +167,11 @@
                 fingerString += "<br>";
             }
 
-            frameString += handString;
-            frameString += fingerString;
+            //frameString += handString;
+            //frameString += fingerString;
         }
 
-        //output.innerHTML = frameString;
+        output.innerHTML = frameString;
         suma = lthumb + lindex + lmiddle + lring + lpinky + rthumb + rindex + rmiddle + rring + rpinky;
         if (suma != buffercomparison)
         {
@@ -185,7 +185,7 @@
             suma = 0;
         if (suma != 0 && suma != comparison && buffer > 50) {
             comparison = suma;
-            output.innerHTML = suma;
+            //output.innerHTML = suma;
             var msg = new SpeechSynthesisUtterance(suma);
             window.speechSynthesis.speak(msg);
         }
