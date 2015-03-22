@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="http://maddevs.github.io/GesTalk/">Home</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">White Shark: Couting App</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h2>Your number:</h2>
+        <h1 id = "output"></h1>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Stop</a></p>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Mad Devs 2015</p>
+      </footer>
+
+    </div> 
+<!--    <div id = "output"></div>-->
+<script type="text/javascript">
+
+    function concatData(id, data) {
+        return id + ": " + data + "<br>";
+    }
+
+    function getFingetName(fingerType) {
+        switch (fingerType) {
+            case 0:
+                return 'Thumb';
+                break;
+
+            case 1:
+                return 'Index';
+                break;
+
+            case 2:
+                return 'Middle';
+                break;
+
+            case 3:
+                return 'Ring';
+                break;
+
+            case 4:
+                return 'Pinky';
+                break;
+        }
+    }
+
+    function concatJointPosition(id, position) {
+        return id + ": " + position[0] + ", " + position[1] + ", " + position[2] + "<br>";
+    }
+
+    var output = document.getElementById("output");
+    var frameString = "", handString = "", fingerString = "";
+    var hand, finger;
+    var lthumb = false, lindex = false, lmiddle = false, lring = false, lpinky = false, rthumb = false, rindex = false, rmiddle = false, rring = false, rpinky = false; //fingers
+    var suma = 0, comparison = 0;
+    var buffer = 0; buffercomparison = 0; //buffercomparison se compara con suma, buffer se suma hasta 20
+
+    var options = { enableGestures: true };
+
+    Leap.loop(options, function (frame) {
+        frameString = suma;
+        frameString += "<br>";
+        frameString += concatData("frame_id", frame.id);
+        frameString += concatData("num_hands", frame.hands.length);
+        frameString += concatData("num_fingers", frame.fingers.length);
+        frameString += "<br>";
+         for (var i = 0, len = frame.hands.length; i < len; i++) {
+            
+            hand = frame.hands[i];
+            handString = concatData("hand_type", hand.type);
+            handString += concatData("pinch_strength", hand.pinchStrength);
+            handString += concatData("grab_strength", hand.grabStrength);
+            handString += concatData("confidence", hand.confidence);
+
+            handString += "<br>";
+
+            fingerString = ""
+            for (var j = 0, len2 = hand.fingers.length; j < len2; j++) {
+                finger = hand.fingers[j];
+                fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
+                fingerString += concatJointPosition("finger_dip", finger.dipPosition);
+                fingerString += concatJointPosition("finger_pip", finger.pipPosition);
+                fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+                if (finger.extended) {
+                    fingerString += "extended";
+                } else {
+                    fingerString += "not extended";
+                }
+
+                if (hand.type == "left")//Right hand
+                {
+
+                    switch (finger.type) {
+                        case 0:
+                            lthumb = finger.extended;
+                            break;
+
+                        case 1:
+                            lindex = finger.extended;
+                            break;
+
+                        case 2:
+                            lmiddle = finger.extended;
+                            break;
+
+                        case 3:
+                            lring = finger.extended;
+                            break;
+
+                        case 4:
+                            lpinky = finger.extended;
+                            break;
+                    }
+                }
+                else {
+                    switch (finger.type) {
+                        case 0:
+                            rthumb = finger.extended;
+                            break;
+
+                        case 1:
+                            rindex = finger.extended;
+                            break;
+
+                        case 2:
+                            rmiddle = finger.extended;
+                            break;
+
+                        case 3:
+                            rring = finger.extended;
+                            break;
+
+                        case 4:
+                            rpinky = finger.extended;
+                            break;
+                    }
+                }
+
+                fingerString += "<br>";
+            }
+
+            frameString += handString;
+            frameString += fingerString;
+        }
+
+        //output.innerHTML = frameString;
+        suma = lthumb + lindex + lmiddle + lring + lpinky + rthumb + rindex + rmiddle + rring + rpinky;
+        if (suma != buffercomparison)
+        {
+            buffer = 0;
+            buffercomparison = suma;
+        }
+        buffer = buffer + 1;
+        if (frame.hands.length == 1)
+            if (suma > 5) suma = 5;
+        if (frame.hands.length == 0)
+            suma = 0;
+        if (suma != 0 && suma != comparison && buffer > 50) {
+            comparison = suma;
+            output.innerHTML = suma;
+            var msg = new SpeechSynthesisUtterance(suma);
+            window.speechSynthesis.speak(msg);
+        }
+
+    });
+
+</script>
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
