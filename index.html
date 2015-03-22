@@ -30,8 +30,8 @@ Leap.loop(options, function(frame) {
 	for (var i = 0, len = frame.hands.length; i < len; i++){
 		hand = frame.hands[i];
 		handString = concatData("hand_type", hand.type);
-		handString = concatData("pinch_strength ", hand.pinchStrength);
-		handString = concatData("grab_strength ", hand.grabStrength);
+		handString += concatData("pinch_strength", hand.pinchStrength);
+		handString += concatData("grab_strength", hand.grabStrength);
 		handString += concatData("confidence", hand.confidence);
 
 		handString += "<br>";
