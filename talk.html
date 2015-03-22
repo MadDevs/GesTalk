@@ -113,6 +113,37 @@
                      var msg = new SpeechSynthesisUtterance("I need to sleep");
                     return msg;
                     break;
+                case 5:
+                    submenu.innerHTML =  "Option: Home";
+                     var msg = new SpeechSynthesisUtterance("I need to go home");
+                    return msg;
+                    break;
+                case 6:
+                    submenu.innerHTML =  "Option: Hospital";
+                     var msg = new SpeechSynthesisUtterance("I need to go to a hospital");
+                    return msg;
+                    break;
+                case 7:
+                    submenu.innerHTML =  "Option: Party";
+                     var msg = new SpeechSynthesisUtterance("I need to go to a party");
+                    return msg;
+                    break;
+                case 8:
+                    submenu.innerHTML =  "Option: Market";
+                     var msg = new SpeechSynthesisUtterance("I need to go to the market");
+                    return msg;
+                    break;
+                case 9:
+                    submenu.innerHTML =  "Option: Seven";
+                     var msg = new SpeechSynthesisUtterance("I need to go to a Seven Eleven");
+                    return msg;
+                    break;
+                case 10:
+                    submenu.innerHTML =  "Option: EXIT";
+                     var msg = new SpeechSynthesisUtterance("Back to main menu");
+                    inNeeds = false;
+                    return msg;
+                    break;
                 default:
                    submenu.innerHTML =  "Option: ";
                    var msg = new SpeechSynthesisUtterance("Please select a valid option");
@@ -143,6 +174,12 @@
                      var msg = new SpeechSynthesisUtterance("Brother");
                     return msg;
                     break;
+                case 10:
+                    submenu.innerHTML =  "Option: EXIT";
+                     var msg = new SpeechSynthesisUtterance("Back to main menu");
+                    inFamily = false;
+                    return msg;
+                    break;
                 default:
                    submenu.innerHTML =  "Option: ";
                    var msg = new SpeechSynthesisUtterance("Please select a valid option");
@@ -171,6 +208,12 @@
                 case 4:
                     submenu.innerHTML =  "Option: Take me to";
                      var msg = new SpeechSynthesisUtterance("Take me to");
+                    return msg;
+                    break;
+                case 10:
+                    submenu.innerHTML =  "Option: EXIT";
+                     var msg = new SpeechSynthesisUtterance("Back to main menu");
+                    inActions = false;
                     return msg;
                     break;
                 default:
@@ -304,6 +347,20 @@
             
             if(inNumbers == false && inNeeds == false && inFamily == false && inActions == false)
                 window.speechSynthesis.speak(firstMenu(suma));
+            
+            else if(inNumbers){
+                if(suma != 10){
+                    submenu.innerHTML = suma;
+                    var msg = new SpeechSynthesisUtterance(suma);
+                }
+                else {
+                    submenu.innerHTML =  "Option: EXIT";
+                    var msg = new SpeechSynthesisUtterance("Back to main menu");
+                    inNumbers = false;
+                }
+                 window.speechSynthesis.speak(msg);
+                
+            }
             
             else if(inNeeds){
                 window.speechSynthesis.speak(needsMenu(suma));
