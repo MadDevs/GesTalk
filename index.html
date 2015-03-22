@@ -2,11 +2,15 @@
 <html>
 <head>
     <script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
-	<h1>Test 3</h1><br>
-	<div id = "output"></div>
+	<h1>GesTalk</h1><br>
+	<button id="addWord" onclick="switchBtn()" style="display: none;">Add Word</button>
+	<input type="text" id="wordInput" style="display: none;">
+	<button id="continue" onclick="switchBtn()" style="display: none;">Continue</button>
 
+	<p id = "output"></p>
 </body>
 
 <script type="text/javascript">
@@ -172,28 +176,48 @@ function concatJointPosition(id, position){
 	return id + ": " + position[0] + ", " + position[1] + ", " + position [2] + "<br>";
 }
 
+function switchBtn(){
+	add = !add;
+	$(document).ready(function(){
+		if(add){
+			$("#addWord").hide();
+			$("#wordInput").show();
+			$("#continue").show();
+		}else{
+			$("#continue").hide();
+			$("#addWord").show();
+			$("#wordInput").hide();
+		}
+	});
+	n = 0;
+}
+
+
 var output = document.getElementById("output");
-var frameString = "", handString = "", fingerString = "";
+var frameString = "", handString = "", fingerString = "", tempString = "", wordString = "";
 var hand, finger;
+var add = false;
 
 var options = { enableGestures: true };
 var calibrated = false;
-var h = [0,0,0,0,0];
+var h = [0,0,0,0,0], leapProm = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]];
 var n = 0;
+var word;
 
 Leap.loop(options, function(frame) {
 	if(!calibrated){
 		frameString = "<h1>Calibrating</h1>";
 		if(frame.hands.length == 1){
 			if(getGest(frame.hands[0].fingers) == "Thumb Index Middle Ring Pinky"){
-				if(n%6==0)
-				for (var i = 0, len = frame.hands.length; i < len; i++){
-					hand = frame.hands[i];
-					for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
-						finger = hand.fingers[j];
-						var handPos = hand.palmPosition;
-						var tipPos = finger.dipPosition;
-						h[j] += Leap.vec3.distance(tipPos, handPos);
+				if(n%6==0){
+					for (var i = 0, len = frame.hands.length; i < len; i++){
+						hand = frame.hands[i];
+						for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
+							finger = hand.fingers[j];
+							var handPos = hand.palmPosition;
+							var tipPos = finger.dipPosition;
+							h[j] += Leap.vec3.distance(tipPos, handPos);
+						}
 					}
 				}
 				for (var j = 0; j < 5; j++){
@@ -203,8 +227,16 @@ Leap.loop(options, function(frame) {
 				if(n/6==20){
 					for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
 						h[j] /= 20;
+						leapProm[0][j] = h[j];
+						leapProm[1][j] = h[j];
+						leapProm[2][j] = h[j];
+						leapProm[3][j] = h[j];
 					}
 					calibrated = true;
+					n = 0;
+					$(document).ready(function(){
+						$("#addWord").show();
+					});
 				}
 			}else{
 				frameString += "<h2>Place one open hand above</h2>";
@@ -219,43 +251,82 @@ Leap.loop(options, function(frame) {
 			}
 		}
 	}else{
-		frameString = concatData("frame_id", frame.id);
-		frameString += concatData("num_hands", frame.hands.length);
-		frameString += concatData("num_fingers", frame.fingers.length);
-		frameString += "<br>";
-
-		for (var i = 0, len = frame.hands.length; i < len; i++){
-			hand = frame.hands[i];
-			handString = concatData("hand_type", hand.type);
-			handString += concatData("pinch_strength", hand.pinchStrength);
-			handString += concatData("grab_strength", hand.grabStrength);
-			handString += concatData("confidence", hand.confidence);
-
-			handString += "<br>";
-
-			fingerString = ""
-			for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
-				finger = hand.fingers[j];
-				fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
-				fingerString += concatJointPosition("finger_dip", finger.dipPosition);
-				fingerString += concatJointPosition("finger_pip", finger.pipPosition);
-				fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
-				if (finger.extended) {
-				    fingerString += "extended";
-				}else {
-				    fingerString += "not extended";
-				}
-				fingerString += "<br>";
-				var handPos = hand.palmPosition;
-				var tipPos = finger.dipPosition;
-				frameString += h[j] + " " + Leap.vec3.distance(tipPos, handPos) + " " + Leap.vec3.distance(tipPos, handPos)/h[j] + "<br>";
-			}
-			frameString += "<h1>" + getGest(hand.fingers) + "</h1>";
+		if(add){
+			frameString = "";
+			// frameString += concatData("num_hands", frame.hands.length);
+			// frameString += concatData("num_fingers", frame.fingers.length);
 			frameString += "<br>";
-			frameString += handString;
-			frameString += fingerString;
+			for (var i = 0, len = frame.hands.length; i < len; i++){
+				hand = frame.hands[i];
+				for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
+					finger = hand.fingers[j];
+					var handPos = hand.palmPosition;
+					var tipPos = finger.dipPosition;
+					if(n%6 == 0){
+						leapProm[i][j] = (Leap.vec3.distance(tipPos, handPos) + leapProm[i][j]) / 2;
+					}
+				}
+				wordString = "";
+				if(n%6 == 0){
+					wordString = "{input:{" ;
+					wordString += "thumb:" + leapProm[i][0]/h[0] + ",";
+					wordString += "index:" + leapProm[i][1]/h[1] + ",";
+					wordString += "middle:" + leapProm[i][2]/h[2] + ",";
+					wordString += "ring:" + leapProm[i][3]/h[3] + ",";
+					wordString += "pink:" + leapProm[i][4]/h[4] + ",";
+					wordString += "pinch_strength:" + hand.pinchStrength + ",";
+					wordString += "grab_strength:" + hand.grabStrength;
+					wordString += "},output:{";
+					wordString += document.getElementById("wordInput").value + ":" + 1 + "}},";				
+					console.log(wordString);
+					tempString += wordString;
+				}
+				if(n<=600){
+					n++;
+				}
+			}
+		}else{
+			frameString = "";
+			// frameString += concatData("num_hands", frame.hands.length);
+			// frameString += concatData("num_fingers", frame.fingers.length);
+			n = (n + 1) % 60;
+			frameString += "<br>";
+			tempString = "";
+			for (var i = 0, len = frame.hands.length; i < len; i++){
+				hand = frame.hands[i];
+				handString = concatData("hand_type", hand.type);
+				handString += concatData("pinch_strength", hand.pinchStrength);
+				handString += concatData("grab_strength", hand.grabStrength);
+				handString += concatData("confidence", hand.confidence);
+				handString += "<br>";
+				fingerString = "";
+				for (var j = 0, len2 = hand.fingers.length; j < len2; j++){
+					finger = hand.fingers[j];
+					fingerString += concatData("finger_type", finger.type) + " (" + getFingetName(finger.type) + ") <br>";
+					fingerString += concatJointPosition("finger_dip", finger.dipPosition);
+					fingerString += concatJointPosition("finger_pip", finger.pipPosition);
+					fingerString += concatJointPosition("finger_mcp", finger.mcpPosition);
+					if (finger.extended) {
+					    fingerString += "extended";
+					}else {
+					    fingerString += "not extended";
+					}
+					fingerString += "<br>";
+					var handPos = hand.palmPosition;
+					var tipPos = finger.dipPosition;
+					if(n%6 == 0){
+						leapProm[i][j] = (Leap.vec3.distance(tipPos, handPos) + leapProm[i][j]) / 2;
+					}
+					frameString += h[j] + " " + leapProm[i][j] + " " + leapProm[i][j]/h[j] + "<br>";
+				}
+				frameString += "<h1>" + getGest(hand.fingers) + "</h1>";
+				frameString += "<br>";
+				tempString = handString;
+				tempString += fingerString;
+			}
 		}
 	}
+	frameString += tempString;
 	output.innerHTML = frameString;
 });
 
